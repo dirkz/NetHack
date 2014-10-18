@@ -6,6 +6,10 @@
 #include "func_tab.h"
 /* #define DEBUG */	/* uncomment for debugging */
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 /*
  * Some systems may have getchar() return EOF for various reasons, and
  * we should not quit before seeing at least NR_OF_EOFS consecutive EOFs.
@@ -1376,7 +1380,9 @@ static const struct func_tab cmdlist[] = {
 #endif
 	{C('x'), TRUE, doattributes},
 #ifdef SUSPEND
+#if !TARGET_OS_IPHONE
 	{C('z'), TRUE, dosuspend},
+#endif
 #endif
 	{'a', FALSE, doapply},
 	{'A', FALSE, doddoremarm},
@@ -1450,7 +1456,9 @@ static const struct func_tab cmdlist[] = {
 	{'?', TRUE, dohelp},
 	{M('?'), TRUE, doextlist},
 #ifdef SHELL
+#if !TARGET_OS_IPHONE
 	{'!', TRUE, dosh},
+#endif
 #endif
 	{'.', TRUE, donull, "waiting"},
 	{' ', TRUE, donull, "waiting"},

@@ -6,6 +6,10 @@
 #ifndef UNIXCONF_H
 #define UNIXCONF_H
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
+
 /*
  * Some include files are in a different place under SYSV
  *	BSD		   SYSV
@@ -144,6 +148,10 @@
  */
 
 #define MAIL			/* Deliver mail during the game */
+
+#if TARGET_OS_IPHONE
+#undef MAIL
+#endif
 
 /* The Andrew Message System does mail a little differently from normal
  * UNIX.  Mail is deposited in the user's own directory in ~/Mailbox
