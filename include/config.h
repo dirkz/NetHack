@@ -5,6 +5,9 @@
 #ifndef CONFIG_H /* make sure the compiler does not see the typedefs twice */
 #define CONFIG_H
 
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#endif
 
 /*
  * Section 1:	Operating and window systems selection.
@@ -47,6 +50,11 @@
 /* #define QT_GRAPHICS */	/* Qt interface */
 /* #define GNOME_GRAPHICS */	/* Gnome interface */
 /* #define MSWIN_GRAPHICS */	/* Windows NT, CE, Graphics */
+
+#if TARGET_OS_IPHONE
+#undef TTY_GRAPHICS
+#define IOS_GRAPHICS
+#endif
 
 /*
  * Define the default window system.  This should be one that is compiled
@@ -113,6 +121,10 @@
 # define HACKDIR "\\nethack"
 #endif
 
+#ifdef IOS_GRAPHICS
+#define DEFAULT_WINDOWS_SYS "ios"
+#endif
+
 #ifndef DEFAULT_WINDOW_SYS
 # define DEFAULT_WINDOW_SYS "tty"
 #endif
@@ -131,7 +143,6 @@
 #  define GRAPHIC_TOMBSTONE	/* Use graphical tombstone (rip.xpm) */
 # endif
 #endif
-
 
 /*
  * Section 2:	Some global parameters and filenames.
@@ -168,9 +179,11 @@
  */
 
 #ifdef UNIX
+#if !TARGET_OS_IPHONE
 /* path and file name extension for compression program */
 #define COMPRESS "/usr/bin/compress"	/* Lempel-Ziv compression */
 #define COMPRESS_EXTENSION ".Z"		/* compress's extension */
+#endif /* !TARGET_OS_IPHONE */
 /* An example of one alternative you might want to use: */
 /* #define COMPRESS "/usr/local/bin/gzip" */	/* FSF gzip compression */
 /* #define COMPRESS_EXTENSION ".gz" */		/* normal gzip extension */
